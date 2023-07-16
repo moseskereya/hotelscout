@@ -289,16 +289,15 @@ position: absolute;
 }
 
 @media screen and (max-width:375px) {
-    .hotels_list {
+ .hotels_list {
     display: flex;
     overflow: scroll;
     height: 200px;
-     width: 100%;
-     background-color: #fff;
-    margin: 10px 0;
+    width: 100%;
+    background-color: #fff;
 }
  .hotel_container img {
-     width: 95%;
+     width: 105%;
      height: 200px;
      object-fit: cover;
  }
