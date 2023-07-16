@@ -15,7 +15,7 @@ class Maps extends Component {
     currentLocation: null,
     activeMarker: null,
     selectedPlace: null,
-    zoom: 18
+    zoom: 14
   };
 
   componentDidMount() {
@@ -149,11 +149,14 @@ class Maps extends Component {
     const onLoad = (autoComplete) => this.handleSearch(autoComplete);
     return (
       <>
-        <div className='hotel_search'>
+        <header>
+          <h4>Hotel Scout</h4>
+          <div className='hotel-search'>
         <Autocomplete  onLoad = {onLoad} onPlaceChanged={this.handleSearch}>
           <input type='text' placeholder='Explore Hotels Now' ref={this.searchInputRef} />  
        </Autocomplete>
         </div>
+        </header>
         <div ref={this.mapRef} className="map_container">
           {currentLocation && (
             <Map google={this.props.google} zoom={zoom} center={currentLocation} initialCenter={currentLocation}>
@@ -195,9 +198,11 @@ class Maps extends Component {
           )}
         </div>
         <div className='hotels_list'>
+          <div className='hotel'>
           {hotels?.map((hotel, index) => (
             <Hotel key={index} hotel={hotel} />
           ))}
+          </div>
         </div>
       </>
     );

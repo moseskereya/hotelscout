@@ -35,15 +35,17 @@ body {
     width: 100%;
 }
 
-.header{
+header{
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
     background-color: #ffffff;
     box-shadow: 8px 5px 5px 0px rgba(168, 167, 167, 0.75);
     -webkit-box-shadow: 8px 5px 5px 0px rgba(161, 161, 161, 0.75);
      -moz-box-shadow: 8px 5px 5px 0px rgba(194, 194, 194, 0.75);
 }
+
+
 
 .header_title{
     margin: 20px;
@@ -130,10 +132,10 @@ textarea:-moz-placeholder {
 .search_hotel_location{
     padding: 20px;
 }
-.search_hotel_location input{
+.hotel-search input{
     padding: 10px;
     border-radius: 5px;
-    border: 1px solid var(--secondary-font-color);
+    border: 1px solid gray;
     margin: 0 15px ;
 }
 
@@ -246,6 +248,7 @@ position: absolute;
     margin: 0 .6rem;
 }
 
+
 .hotels-container img {
     width: 250px;
     height: 150px;
@@ -285,31 +288,56 @@ position: absolute;
 
 @media screen and (max-width:768px) {
     .map_container{
-        height: 70vh;
+        height: 50vh;
         margin: 10px;
+        margin-bottom: 20px;
+    }
+    .hotel{
+        width: 100%;
+    }
+
+    .hotel_search{
+      display: none;
     }
 
     .hotels_list {
         display: flex;
-        overflow: scroll;
+        flex-direction: column;
         width: 100%;
-        height: 200px;
         background-color: #fff;
+        min-height: 400px;
         box-shadow: none;
         position: relative;
         bottom: 0;
+        margin: 8px auto;
     }
+    
     .hotel_search{
         top: 100px;
         right: 100px;
         z-index: 999;
         padding: 20px 10px;
     }
+
     .hotel_content{
         display: flex;
         align-items: center;
     }
-      
+
+    .hotel_container{
+        margin: 8px auto;
+    }
+
+ 
+    .hotels-container img {
+        width: 90%;
+        height: 180px;
+        margin: .5rem;
+        object-fit: cover;
+        border-radius: 20px;
+    }
+    
+
     .hotel_content h4 {
       font-style: 14px;
       font-weight: 500;
@@ -317,7 +345,7 @@ position: absolute;
     }
 
     .hotel_container img {
-        width: 95%;
+        width: 100%;
     }
     .go-back-home{
         bottom: 120px;
