@@ -112,8 +112,8 @@ class Maps extends Component {
       bounds: bounds,
       query: 'hotels',
     };
-  
-    service.textSearch(request, (results, status, pagination) => {
+
+    service.textSearch(request, (results, status) => {
       if (status === this.props.google.maps.places.PlacesServiceStatus.OK) {
         const hotels = results.map((place) => ({
           position: place.geometry.location,
@@ -121,19 +121,14 @@ class Maps extends Component {
           image: place.photos ? place.photos[0].getUrl() : null,
           rating: place.rating ? place.rating : null,
         }));
-  
+
         this.setState({ hotels });
         console.log(hotels)
-  
-        if (pagination.hasNextPage) {
-          pagination.nextPage();
-        }
       } else {
         console.error('Places service request failed:', status);
       }
     });
   }
-  
 
   onMarkerClick = (props, marker) => {
     this.setState({
@@ -161,7 +156,7 @@ class Maps extends Component {
         </div>
         <div ref={this.mapRef} className="map_container">
           {currentLocation && (
-            <Map google={this.props.google} zoom={zoom} center={currentLocation}>
+            <Map google={this.props.google} zoom={zoom} center={currentLocation} initialCenter={currentLocation}>
               <Marker
                 position={currentLocation}
                 className="user-location-dot"
