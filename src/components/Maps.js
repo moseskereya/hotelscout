@@ -26,6 +26,7 @@ class Maps extends Component {
 
           const mapOptions = {
             center: currentLocation,
+            gestureHandling:"cooperative",
             zoom: 18,
           };
 
@@ -99,7 +100,7 @@ class Maps extends Component {
         <>
         <div ref={this.mapRef} className="map_container">
           {currentLocation && (
-            <Map google={this.props.google} zoom={zoom} initialCenter={currentLocation} gestureHandling="cooperative">
+            <Map google={this.props.google} zoom={zoom} initialCenter={currentLocation}>
              <Marker
               position={currentLocation}
               className="user-location-dot"
