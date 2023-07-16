@@ -1,6 +1,5 @@
 import React, { Component, createRef } from 'react';
 import { GoogleApiWrapper, Map, Marker, InfoWindow } from 'google-maps-react';
-import spinner from './spinner.gif';
 import Hotel from "./Hotel"
 class Maps extends Component {
   constructor(props) {
@@ -96,16 +95,6 @@ class Maps extends Component {
 
   render() {
     const { hotels, currentLocation, activeMarker, selectedPlace, zoom } = this.state
-    if(hotels === undefined && hotels.length === 0){
-      return (
-        <div className="spinner">
-            <img
-                src={spinner}
-                alt="Loading..."
-            />
-        </div>
-   );
-    }else{
       return (
         <>
         <div ref={this.mapRef} className="map_container">
@@ -156,7 +145,6 @@ class Maps extends Component {
         </>
       );
     }
-  }
 }
 
 export default GoogleApiWrapper({
