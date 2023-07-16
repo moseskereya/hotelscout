@@ -99,7 +99,7 @@ class Maps extends Component {
         <>
         <div ref={this.mapRef} className="map_container">
           {currentLocation && (
-            <Map google={this.props.google} zoom={zoom} initialCenter={currentLocation}>
+            <Map google={this.props.google} zoom={zoom} initialCenter={currentLocation} gestureHandling="cooparative">
              <Marker
               position={currentLocation}
               className="user-location-dot"

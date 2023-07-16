@@ -164,34 +164,6 @@ body {
 }
 
 
-.popup-card button:hover {
-    background-color: #0056b3;
-}
-/* curreent user location */
-
-.user-location-dot {
-    width: 10px;
-    height: 10px;
-    background-color: blue;
-    border-radius: 50%;
-    animation: pulse 1s ease-in-out infinite;
-}
-
-@keyframes pulse {
-    0% {
-        transform: scale(0.4);
-    }
-
-    50% {
-        transform: scale(0.8);
-    }
-
-    100% {
-        transform: scale(0.4);
-    }
-}
-
-
 .search_hotel{
     display: flex;
     align-items: center;
@@ -269,17 +241,17 @@ position: absolute;
 
 @media screen and (max-width:768px) {
     .map_container{
-        height: 60vh;
+        height: 70vh;
         margin: 10px;
     }
+
     .hotels_list {
         display: flex;
         overflow: scroll;
         width: 100%;
-        height: 300px;
+        height: 200px;
         background-color: #fff;
         box-shadow: none;
-        margin: 20px 0;
         position: relative;
         bottom: 0;
     }
