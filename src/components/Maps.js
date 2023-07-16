@@ -15,8 +15,7 @@ class Maps extends Component {
     currentLocation: null,
     activeMarker: null,
     selectedPlace: null,
-    zoom: 16,
-    
+    zoom: 18
   };
 
   componentDidMount() {
@@ -36,15 +35,20 @@ class Maps extends Component {
           try {
             const map = new google.maps.Map(this.mapRef.current, mapOptions);
             const service = new google.maps.places.PlacesService(map);
-            const initialBounds = map.getBounds();
-  
             this.setState({ currentLocation, map, service });
-            this.fetchHotels(service, initialBounds);
+            this.fetchHotels(service, map.getBounds());
   
             map.addListener('bounds_changed', () => {
               const newBounds = map.getBounds();
               if (newBounds) {
                 this.fetchHotels(service, newBounds);
+              }
+            });
+  
+            this.searchInputRef.current.addEventListener('keydown', (event) => {
+              if (event.key === 'Enter') {
+                event.preventDefault();
+                this.handleSearch();
               }
             });
           } catch (error) {
@@ -59,7 +63,6 @@ class Maps extends Component {
       console.error('Geolocation is not supported by this browser.');
     }
   }
-  
 
 
 
@@ -104,35 +107,32 @@ class Maps extends Component {
   
   
 
-fetchHotels(service, bounds, pagination) {
-  const request = {
-    bounds: bounds,
-    query: 'hotels',
-    ...pagination,
-  };
-
-  service.textSearch(request, (results, status, pagination) => {
-    if (status === this.props.google.maps.places.PlacesServiceStatus.OK) {
-      const hotels = results.map((place) => ({
-        position: place.geometry.location,
-        name: place.name,
-        image: place.photos ? place.photos[0].getUrl() : null,
-        rating: place.rating ? place.rating : null,
-      }));
-
-      this.setState((prevState) => ({
-        hotels: [...prevState.hotels, ...hotels],
-      }));
-
-      if (pagination.hasNextPage) {
-        pagination.nextPage();
+  fetchHotels(service, bounds) {
+    const request = {
+      bounds: bounds,
+      query: 'hotels',
+    };
+  
+    service.textSearch(request, (results, status, pagination) => {
+      if (status === this.props.google.maps.places.PlacesServiceStatus.OK) {
+        const hotels = results.map((place) => ({
+          position: place.geometry.location,
+          name: place.name,
+          image: place.photos ? place.photos[0].getUrl() : null,
+          rating: place.rating ? place.rating : null,
+        }));
+  
+        this.setState({ hotels });
+        console.log(hotels)
+  
+        if (pagination.hasNextPage) {
+          pagination.nextPage();
+        }
+      } else {
+        console.error('Places service request failed:', status);
       }
-    } else {
-      console.error('Places service request failed:', status);
-    }
-  });
-}
-
+    });
+  }
   
 
   onMarkerClick = (props, marker) => {
