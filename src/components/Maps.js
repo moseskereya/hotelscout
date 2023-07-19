@@ -2,6 +2,7 @@ import React, { Component, createRef } from 'react';
 import { GoogleApiWrapper, Map, Marker, InfoWindow } from 'google-maps-react';
 import Hotel from "./Hotel"
 import {Autocomplete} from "@react-google-maps/api"
+import { FiSearch } from 'react-icons/fi';
 
 class Maps extends Component {
   constructor(props) {
@@ -15,7 +16,8 @@ class Maps extends Component {
     currentLocation: null,
     activeMarker: null,
     selectedPlace: null,
-    zoom: 14
+    zoom: 16,
+    selectedHotel: null,
   };
 
   componentDidMount() {
@@ -62,7 +64,27 @@ class Maps extends Component {
     } else {
       console.error('Geolocation is not supported by this browser.');
     }
+
+    window.addEventListener('resize', this.handleWindowResize);
   }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.handleWindowResize);
+  }
+
+  handleWindowResize = () => {
+    const screenWidth = window.innerWidth;
+    let zoomLevel;
+    if (screenWidth < 500) {
+      zoomLevel = 19;
+    } else if (screenWidth < 960) {
+      zoomLevel = 16;
+    } else {
+      zoomLevel = 18;
+    }
+    this.setState({ zoom: zoomLevel });
+  };
+
 
 
 
@@ -103,32 +125,62 @@ class Maps extends Component {
       });
     }
   };
-  
-  
-  
 
   fetchHotels(service, bounds) {
     const request = {
       bounds: bounds,
       query: 'hotels',
     };
-
+  
     service.textSearch(request, (results, status) => {
       if (status === this.props.google.maps.places.PlacesServiceStatus.OK) {
-        const hotels = results.map((place) => ({
-          position: place.geometry.location,
-          name: place.name,
-          image: place.photos ? place.photos[0].getUrl() : null,
-          rating: place.rating ? place.rating : null,
-        }));
-
-        this.setState({ hotels });
-        console.log(hotels)
+        const hotelPromises = results.map((place) => {
+          return new Promise((resolve) => {
+            const placeRequest = {
+              placeId: place.place_id,
+              fields: ['name', 'geometry', 'rating', 'photos', 'website', 'formatted_phone_number', 'price_level', 'formatted_address', 'reviews'],
+            };
+  
+            service.getDetails(placeRequest, (placeResult, placeStatus) => {
+              if (placeStatus === this.props.google.maps.places.PlacesServiceStatus.OK) {
+                const hotel = {
+                  position: placeResult.geometry.location,
+                  name: placeResult.name,
+                  image: placeResult.photos ? placeResult.photos[0].getUrl() : null,
+                  rating: placeResult.rating ? placeResult.rating : null,
+                  website: placeResult.website,
+                  phoneNumber: placeResult.formatted_phone_number,
+                  priceLevel: placeResult.price_level,
+                  address: placeResult.formatted_address,
+                  reviews: placeResult.reviews ? placeResult.reviews.map((review) => ({
+                    rating: review.rating,
+                    text: review.text,
+                    authorName: review.author_name,
+                    authorEmail: review.author_email,
+                    authorPhoto: review.profile_photo_url,
+                  })) : [],
+                  description: placeResult.formatted_address
+                };
+                resolve(hotel);
+              } else {
+                console.error('Place details request failed:', placeStatus);
+                resolve(null);
+              }
+            });
+          });
+        });
+  
+        Promise.all(hotelPromises).then((hotels) => {
+          const filteredHotels = hotels.filter((hotel) => hotel !== null);
+          this.setState({ hotels: filteredHotels });
+          console.log(hotels);
+        });
       } else {
         console.error('Places service request failed:', status);
       }
     });
   }
+  
 
   onMarkerClick = (props, marker) => {
     this.setState({
@@ -144,6 +196,18 @@ class Maps extends Component {
     });
   };
 
+  handleHotelClick = (position) => {
+    const { map } = this.state;
+
+    if (map && position) {
+      map.panTo(position);
+    }
+  };
+
+
+  
+
+
   render() {
     const { hotels, currentLocation, activeMarker, selectedPlace, zoom } = this.state;
     const onLoad = (autoComplete) => this.handleSearch(autoComplete);
@@ -153,8 +217,11 @@ class Maps extends Component {
           <h4>Hotel Scout</h4>
           <div className='hotel-search'>
         <Autocomplete  onLoad = {onLoad} onPlaceChanged={this.handleSearch}>
-          <input type='text' placeholder='Explore Hotels Now' ref={this.searchInputRef} />  
+          <input type='text' placeholder="Search..." ref={this.searchInputRef} /> 
        </Autocomplete>
+       <div className="search-icon">
+        <FiSearch />
+      </div>
         </div>
         </header>
         <div ref={this.mapRef} className="map_container">
@@ -200,7 +267,8 @@ class Maps extends Component {
         <div className='hotels_list'>
           <div className='hotel'>
           {hotels?.map((hotel, index) => (
-            <Hotel key={index} hotel={hotel} />
+            <Hotel key={index} 
+            hotel={hotel}  />
           ))}
           </div>
         </div>

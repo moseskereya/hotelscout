@@ -24,7 +24,7 @@ body {
 
 .map_container{
     width: 100%;
-    height: 100vh;
+    height: 95vh;
 }
 
 .spinner{
@@ -37,19 +37,21 @@ body {
 
 header{
     display: flex;
-    justify-content: space-around;
+    position: sticky;
+    justify-content: space-between;
     align-items: center;
-    background-color: #ffffff;
-    box-shadow: 8px 5px 5px 0px rgba(168, 167, 167, 0.75);
-    -webkit-box-shadow: 8px 5px 5px 0px rgba(161, 161, 161, 0.75);
-     -moz-box-shadow: 8px 5px 5px 0px rgba(194, 194, 194, 0.75);
+    background-color: #fff;
+    box-shadow: 8px 5px 5px 0px rgba(221, 220, 220, 0.75);
+    -webkit-box-shadow: 8px 5px 5px 0px rgba(238, 238, 238, 0.75);
+    -moz-box-shadow: 8px 5px 5px 0px rgba(237, 237, 237, 0.75);
+     z-index: 4000;
+
 }
 
 
-
 .header_title{
-    margin: 20px;
     text-align: center;
+    display: none;
 }
 
 .spinner img{
@@ -59,18 +61,19 @@ header{
 
 .hotels_list{
     position: absolute;
-    top: 0;
+    top: 40px;
     left:0;
     width: 300px;
     min-width: 300px;
     overflow: scroll;
     height: 100vh;
-    z-index: 9999;
-    padding: 20px 8px ;
+    z-index: 100;
+    padding: 20px 8px;
     background-color: #fff;
-    box-shadow: 8px 5px 5px 0px rgba(168, 167, 167, 0.75);
-    -webkit-box-shadow: 8px 5px 5px 0px rgba(161, 161, 161, 0.75);
-    -moz-box-shadow: 8px 5px 5px 0px rgba(194, 194, 194, 0.75);
+    box-shadow: 8px 5px 5px 0px rgba(221, 220, 220, 0.75);
+    -webkit-box-shadow: 8px 5px 5px 0px rgba(238, 238, 238, 0.75);
+    -moz-box-shadow: 8px 5px 5px 0px rgba(237, 237, 237, 0.75);
+    cursor: pointer;
 }
 
 .hotel_container{
@@ -78,28 +81,37 @@ header{
     box-shadow: 8px 5px 5px 0px rgba(168, 167, 167, 0.75);
     -webkit-box-shadow: 8px 5px 5px 0px rgba(161, 161, 161, 0.75);
     -moz-box-shadow: 8px 5px 5px 0px rgba(194, 194, 194, 0.75);
-    margin: 20px 0;
 }
 
 .hotel_search{
-    position: absolute;
-    top: 30px;
-    right: 40px;
-    z-index: 999;
+    position: relative;
     padding: 20px 10px;
 }
+
+.search-icon {
+    position: absolute;
+    top: 50%;
+    right: 30px;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+  }
+  
+
 
 .hotel_search input{
     padding:10px;
     border: none;
-    border-radius: 10px ;
+    border-radius: 50px;
     background-color: #ffffff;
-    color: rgb(32, 32, 32);
 }
 
 input::-webkit-input-placeholder,
 textarea::-webkit-input-placeholder {
-  color: #272727;
+  color: #686767;
 }
 
 input:-moz-placeholder,
@@ -134,11 +146,10 @@ textarea:-moz-placeholder {
 }
 .hotel-search input{
     padding: 10px;
-    border-radius: 5px;
-    border: 1px solid gray;
+    border-radius: 20px;
+    border-radius: 1px solid #c6c6c6;
     margin: 0 15px ;
 }
-
 
 
 .header_content{
@@ -159,6 +170,13 @@ textarea:-moz-placeholder {
     object-fit: cover;
     border-radius: 10px;
 }
+
+.hotel_details{
+    display: flex;
+    justify-content: space-around;
+    margin: 25px 0;
+}
+
 /* show label */
 .marker-label {
     position: absolute;
@@ -288,16 +306,16 @@ position: absolute;
 
 @media screen and (max-width:768px) {
     .map_container{
-        height: 50vh;
+        height: 40vh;
         margin: 10px;
         margin-bottom: 20px;
     }
     .hotel{
         width: 100%;
     }
-
-    .hotel_search{
-      display: none;
+    .header_content{
+        display: flex;
+        justify-content: space-around;
     }
 
     .hotels_list {
@@ -310,6 +328,19 @@ position: absolute;
         position: relative;
         bottom: 0;
         margin: 8px auto;
+    }
+    .hotel_details{
+       display: none;
+    }
+    .hotel-search{
+        width: 60%;
+        border-radius: 1px solid #c6c6c6;
+    }
+
+    .hotel-search input{
+        border-radius: 20px;
+        width: 80%;
+        border-radius: 1px solid #c6c6c6;
     }
     
     .hotel_search{
@@ -334,6 +365,7 @@ position: absolute;
         height: 180px;
         margin: .5rem;
         object-fit: cover;
+        display: none;
         border-radius: 20px;
     }
     
@@ -341,6 +373,7 @@ position: absolute;
     .hotel_content h4 {
       font-style: 14px;
       font-weight: 500;
+      padding: 10px 0;
       margin: 8px;
     }
 
@@ -349,9 +382,6 @@ position: absolute;
     }
     .go-back-home{
         bottom: 120px;
-    }
-    .rating{
-        display: none;
     }
     .spinner{
         display: flex;
@@ -373,6 +403,16 @@ position: absolute;
     width: 100%;
     background-color: #fff;
 }
+
+.header_content{
+    display: flex;
+    justify-content: space-between;
+}
+
+.hotel_details{
+    display: none;
+ }
+
  .hotel_container img {
      width: 105%;
      height: 200px;
