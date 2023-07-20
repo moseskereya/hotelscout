@@ -196,20 +196,19 @@ class Maps extends Component {
     });
   };
 
-  handleHotelClick = (position) => {
+  handleHotelClick = (hotel) => {
+    const { position } = hotel;
+    const { google } = this.props;
     const { map } = this.state;
 
-    if (map && position) {
-      map.panTo(position);
+    if (google && map && position) {
+      const latLng = new google.maps.LatLng(position.lat, position.lng);
+      map.panTo(latLng);
     }
   };
 
-
-  
-
-
   render() {
-    const { hotels, currentLocation, activeMarker, selectedPlace, zoom } = this.state;
+    const { hotels, currentLocation, activeMarker, selectedPlace, zoom, selectedHotel } = this.state;
     const onLoad = (autoComplete) => this.handleSearch(autoComplete);
     return (
       <>
@@ -226,7 +225,7 @@ class Maps extends Component {
         </header>
         <div ref={this.mapRef} className="map_container">
           {currentLocation && (
-            <Map google={this.props.google} zoom={zoom} center={currentLocation} initialCenter={currentLocation}>
+            <Map google={this.props.google} zoom={zoom} center={currentLocation || selectedHotel} initialCenter={currentLocation}>
               <Marker
                 position={currentLocation}
                 className="user-location-dot"
@@ -268,7 +267,8 @@ class Maps extends Component {
           <div className='hotel'>
           {hotels?.map((hotel, index) => (
             <Hotel key={index} 
-            hotel={hotel}  />
+            hotel={hotel}  
+            onClick={this.handleHotelClick}/>
           ))}
           </div>
         </div>

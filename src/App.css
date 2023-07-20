@@ -73,7 +73,6 @@ header{
     box-shadow: 8px 5px 5px 0px rgba(221, 220, 220, 0.75);
     -webkit-box-shadow: 8px 5px 5px 0px rgba(238, 238, 238, 0.75);
     -moz-box-shadow: 8px 5px 5px 0px rgba(237, 237, 237, 0.75);
-    cursor: pointer;
 }
 
 .hotel_container{
@@ -306,7 +305,7 @@ position: absolute;
 
 @media screen and (max-width:768px) {
     .map_container{
-        height: 40vh;
+        height: 60vh;
         margin: 10px;
         margin-bottom: 20px;
     }

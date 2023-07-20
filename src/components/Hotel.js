@@ -10,10 +10,12 @@ const Hotel = ({ hotel, onClick }) => {
     return `${fullStarsComponent}${halfStarComponent}`;
   };
 
+ 
+
   return (
     <div className="container">
       <div key={hotel.id} className="hotels-container">
-        <img src={hotel.image} alt={hotel.name} onClick={onClick} />
+        <img src={hotel.image} alt={hotel.name} />
         <div className="hotel_content">
           <div className="hotel_title">
             <h4>{hotel.name}</h4>
