@@ -305,7 +305,7 @@ position: absolute;
 
 @media screen and (max-width:768px) {
     .map_container{
-        height: 60vh;
+        height: 45vh;
         margin: 10px;
         margin-bottom: 20px;
     }
