@@ -1,6 +1,6 @@
 import React, { Component, createRef } from 'react';
 import { GoogleApiWrapper, Map, Marker } from 'google-maps-react';
-import Hotel from "./Hotel"
+// import Hotel from "./Hotel"
 import {Autocomplete} from "@react-google-maps/api"
 import { FiSearch } from 'react-icons/fi';
 import Popup from './Popup';
@@ -238,7 +238,7 @@ class Maps extends Component {
             </Map>
           )}
         </div>
-        <div className='hotels_list'>
+        {/* <div className='hotels_list'>
           <div className='hotel'>
           {hotels?.map((hotel, index) => (
             <Hotel key={index} 
@@ -246,7 +246,7 @@ class Maps extends Component {
             onClick={this.handleHotelClick}/>
           ))}
           </div>
-        </div>
+        </div> */}
       </>
     );
   }
