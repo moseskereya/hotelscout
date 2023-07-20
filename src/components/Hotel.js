@@ -9,9 +9,6 @@ const Hotel = ({ hotel, onClick }) => {
     const halfStarComponent = hasHalfStar ? '⭐️' : '';
     return `${fullStarsComponent}${halfStarComponent}`;
   };
-
- 
-
   return (
     <div className="container">
       <div key={hotel.id} className="hotels-container">

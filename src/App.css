@@ -41,9 +41,6 @@ header{
     justify-content: space-between;
     align-items: center;
     background-color: #fff;
-    box-shadow: 8px 5px 5px 0px rgba(221, 220, 220, 0.75);
-    -webkit-box-shadow: 8px 5px 5px 0px rgba(238, 238, 238, 0.75);
-    -moz-box-shadow: 8px 5px 5px 0px rgba(237, 237, 237, 0.75);
      z-index: 4000;
 
 }
@@ -71,7 +68,7 @@ header{
     padding: 20px 8px;
     background-color: #fff;
     box-shadow: 8px 5px 5px 0px rgba(221, 220, 220, 0.75);
-    -webkit-box-shadow: 8px 5px 5px 0px rgba(238, 238, 238, 0.75);
+    -webkit-box-shadow: 8px 5px 5px 0px rgba(196, 196, 196, 0.75);
     -moz-box-shadow: 8px 5px 5px 0px rgba(237, 237, 237, 0.75);
 }
 
@@ -305,7 +302,7 @@ position: absolute;
 
 @media screen and (max-width:768px) {
     .map_container{
-        height: 45vh;
+        height: 60vh;
         margin: 10px;
         margin-bottom: 20px;
     }

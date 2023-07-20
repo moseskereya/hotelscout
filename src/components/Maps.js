@@ -1,9 +1,9 @@
 import React, { Component, createRef } from 'react';
-import { GoogleApiWrapper, Map, Marker, InfoWindow } from 'google-maps-react';
+import { GoogleApiWrapper, Map, Marker } from 'google-maps-react';
 import Hotel from "./Hotel"
 import {Autocomplete} from "@react-google-maps/api"
 import { FiSearch } from 'react-icons/fi';
-
+import Popup from './Popup';
 class Maps extends Component {
   constructor(props) {
     super(props);
@@ -17,7 +17,6 @@ class Maps extends Component {
     activeMarker: null,
     selectedPlace: null,
     zoom: 16,
-    selectedHotel: null,
   };
 
   componentDidMount() {
@@ -173,7 +172,6 @@ class Maps extends Component {
         Promise.all(hotelPromises).then((hotels) => {
           const filteredHotels = hotels.filter((hotel) => hotel !== null);
           this.setState({ hotels: filteredHotels });
-          console.log(hotels);
         });
       } else {
         console.error('Places service request failed:', status);
@@ -182,33 +180,22 @@ class Maps extends Component {
   }
   
 
-  onMarkerClick = (props, marker) => {
+  handleHotelClick = (hotel) => {
     this.setState({
-      activeMarker: marker,
-      selectedPlace: props,
+      selectedPlace: hotel
     });
   };
 
-  onCloseInfoWindow = () => {
+  handleClosePopup = () => {
     this.setState({
       activeMarker: null,
       selectedPlace: null,
     });
   };
 
-  handleHotelClick = (hotel) => {
-    const { position } = hotel;
-    const { google } = this.props;
-    const { map } = this.state;
-
-    if (google && map && position) {
-      const latLng = new google.maps.LatLng(position.lat, position.lng);
-      map.panTo(latLng);
-    }
-  };
 
   render() {
-    const { hotels, currentLocation, activeMarker, selectedPlace, zoom, selectedHotel } = this.state;
+    const { hotels, currentLocation, selectedPlace, zoom, selectedHotel, } = this.state;
     const onLoad = (autoComplete) => this.handleSearch(autoComplete);
     return (
       <>
@@ -237,29 +224,17 @@ class Maps extends Component {
                 }}
               />
 
-              {hotels.map((marker, index) => (
-                <Marker
-                  key={index}
-                  position={marker.position}
-                  name={marker.name}
-                  onClick={this.onMarkerClick}
-                  image={marker.image}
-                  rating={marker.rating}
-                />
-              ))}
-
-              <InfoWindow marker={activeMarker} visible={Boolean(activeMarker)}>
-                <div>
-                  {selectedPlace && (
-                    <div>
-                      {selectedPlace.name && <h3>{selectedPlace.name}</h3>}
-                      {selectedPlace.image && (
-                        <img src={selectedPlace.image} alt={selectedPlace.name} style={{ width: '120px', height: '100%' }} />
-                      )}
-                    </div>
-                  )}
-                </div>
-              </InfoWindow>
+            {hotels.map((marker, index, hotel) => (
+              <Marker
+                key={index}
+                position={marker.position}
+                name={marker.name}
+                onClick={() => this.handleHotelClick(marker)}
+                image={marker.image}
+                rating={marker.rating}
+              />
+            ))}
+           {selectedPlace && <Popup selectedPlace={selectedPlace} onClose={() => this.setState({ selectedPlace: null })} />}           
             </Map>
           )}
         </div>
