@@ -234,7 +234,7 @@ class Maps extends Component {
                 rating={marker.rating}
               />
             ))}
-           {selectedPlace && <Popup selectedPlace={selectedPlace} onClose={() => this.setState({ selectedPlace: null })} />}           
+             {selectedPlace && <Popup selectedPlace={selectedPlace} onClose={() => this.setState({ selectedPlace: null })} />}           
             </Map>
           )}
         </div>
@@ -253,5 +253,5 @@ class Maps extends Component {
 }
 
 export default GoogleApiWrapper({
-  apiKey: process.env.GOOGLE_MAP_API_KEYS
+  apiKey:"AIzaSyAl5nMA3rjGiV58HYm1mSlqTmuBdkDmkMw"
 })(Maps);
